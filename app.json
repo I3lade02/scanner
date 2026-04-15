@@ -27,7 +27,6 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
