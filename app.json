@@ -1,23 +1,32 @@
 {
   "expo": {
-    "name": "scanner",
-    "slug": "scanner",
+    "name": "Mana Vault",
+    "slug": "mana-vault",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "scanner",
+    "scheme": "manavault",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.codex.manavault",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow Mana Vault to scan Magic: The Gathering cards."
+      },
       "supportsTablet": true
     },
     "android": {
+      "package": "com.codex.manavault",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#f4efe5",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
@@ -28,21 +37,37 @@
     "plugins": [
       "expo-router",
       [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Mana Vault to scan Magic cards with the camera."
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#f3eee3",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#11140f"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-image",
+      "expo-web-browser",
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "097bc76c-dc83-4172-a923-d0d76e783a2f"
+      }
     }
   }
 }

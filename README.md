@@ -1,50 +1,162 @@
-# Welcome to your Expo app 👋
+# Mana Vault
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Android-first Expo app for managing a personal Magic: The Gathering collection.
 
-## Get started
+## Stack
 
-1. Install dependencies
+- Expo SDK 55
+- React Native 0.83
+- TypeScript
+- Expo Router
+- NativeWind v4
+- Zustand
+- AsyncStorage
+- Scryfall API
+- Expo Camera + `expo-text-extractor` OCR
 
-   ```bash
-   npm install
-   ```
+## MVP Features
 
-2. Start the app
+- Local collection storage with AsyncStorage
+- Scryfall search with debounce and autocomplete
+- Multiple-printing selection before add
+- Foil vs non-foil tracking
+- Quantity management and manual quantity editing
+- Card detail screen with image, oracle text, mana cost, type line, set info, and price
+- Collection value summary and per-card totals
+- Camera scan flow with OCR match confirmation
+- Manual price refresh and optional refresh on app launch
+- JSON export of the local collection
+- Offline collection viewing from persisted data
 
-   ```bash
-   npx expo start
-   ```
+## Project Structure
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+app/
+  _layout.tsx
+  (tabs)/
+    _layout.tsx
+    index.tsx
+    collection.tsx
+    search.tsx
+    scan.tsx
+    settings.tsx
+  card/
+    [id].tsx
+src/
+  components/
+    AppBackground.tsx
+    CollectionCard.tsx
+    EmptyState.tsx
+    ErrorBanner.tsx
+    LoadingState.tsx
+    QuantityStepper.tsx
+    SearchResultCard.tsx
+    SectionHeader.tsx
+    StatCard.tsx
+    Surface.tsx
+    TokenChip.tsx
+  constants/
+    palette.ts
+  features/
+    collection/
+      selectors.ts
+    scan/
+      ocr-helpers.ts
+  services/
+    collection-repository.ts
+    export-service.ts
+    ocr-service.ts
+    scryfall-service.ts
+  store/
+    collection-store.ts
+  styles/
+    global.css
+  types/
+    collection.ts
+    scryfall.ts
+  utils/
+    card-mappers.ts
+    cn.ts
+    currency.ts
+    date.ts
+    debounce.ts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Setup
 
-## Learn more
+1. Install dependencies.
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+2. Start the standard Expo development server.
 
-## Join the community
+```bash
+npm run start
+```
 
-Join our community of developers creating universal apps.
+3. Run on Android with Expo.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npm run android
+```
+
+4. For camera OCR, build a development client. `expo-text-extractor` is a native module, so scan-to-add is not available in plain Expo Go.
+
+```bash
+npm run android:dev
+npm run start:dev
+```
+
+## EAS
+
+EAS CLI is installed locally in this project and configured through `eas.json`.
+
+Useful commands:
+
+```bash
+npm run eas:login
+npm run eas:whoami
+npm run eas:build:android:development
+npm run eas:build:android:preview
+npm run eas:build:android:production
+```
+
+Build profiles:
+
+- `development`: internal development build with `expo-dev-client`
+- `preview`: internal Android APK for device testing and sharing
+- `production`: Android App Bundle for Play Store release
+
+## Validation
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+## API Notes
+
+- Card data, autocomplete, and prices come from Scryfall.
+- Prices use Scryfall USD and USD foil snapshots.
+- OCR reads the captured image, extracts likely title lines, then confirms matches against Scryfall printings.
+
+## Implementation Roadmap
+
+Completed in this MVP:
+
+- App shell, theming, and Android-first tab navigation
+- AsyncStorage persistence and Zustand store
+- Dashboard, Collection, Search, Scan, Detail, and Settings screens
+- Scryfall integration for search, autocomplete, and pricing
+- OCR-backed scan confirmation flow
+
+Good next steps:
+
+- Cardmarket pricing integration
+- Import from JSON
+- Wishlist support
+- Price history snapshots
+- Bulk editing and tags
+- Better Android app icons and splash artwork
